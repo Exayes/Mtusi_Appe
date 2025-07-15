@@ -1,0 +1,176 @@
+{% extends 'store/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Оформление заказа - Apple Store{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-6 fw-bold">Оформление заказа</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'store:cart' %}">Корзина</a></li>
+                    <li class="breadcrumb-item active">Оформление заказа</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Order Form -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Информация для доставки</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="first_name" class="form-label">Имя *</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name" class="form-label">Фамилия *</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="form-text">На этот email будет отправлено подтверждение заказа</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Телефон *</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" 
+                                       placeholder="+7 (999) 999-99-99" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Адрес доставки *</label>
+                            <textarea class="form-control" id="address" name="address" rows="3" 
+                                      placeholder="Укажите полный адрес с индексом" required></textarea>
+                        </div>
+                        
+                        <!-- Delivery Options -->
+                        <div class="mb-4">
+                            <h6 class="mb-3">Способ доставки</h6>
+                            <div class="border rounded p-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="delivery" id="delivery_courier" checked>
+                                    <label class="form-check-label d-flex justify-content-between" for="delivery_courier">
+                                        <div>
+                                            <strong>Курьерская доставка</strong><br>
+                                            <small class="text-muted">Доставка по Москве в течение 1-2 дней</small>
+                                        </div>
+                                        <span class="text-success fw-bold">Бесплатно</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Method -->
+                        <div class="mb-4">
+                            <h6 class="mb-3">Способ оплаты</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="border rounded p-3 h-100">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment" id="payment_card" checked>
+                                            <label class="form-check-label" for="payment_card">
+                                                <i class="bi bi-credit-card me-2"></i>
+                                                <strong>Банковская карта</strong><br>
+                                                <small class="text-muted">Visa, MasterCard, МИР</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="border rounded p-3 h-100">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment" id="payment_cash">
+                                            <label class="form-check-label" for="payment_cash">
+                                                <i class="bi bi-cash me-2"></i>
+                                                <strong>Наличными курьеру</strong><br>
+                                                <small class="text-muted">Оплата при получении</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-apple btn-lg w-100">
+                            <i class="bi bi-check-circle"></i> Подтвердить заказ
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+            <div class="card sticky-top" style="top: 1rem;">
+                <div class="card-header">
+                    <h5 class="mb-0">Ваш заказ</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Order Items -->
+                    {% for item in cart.items.all %}
+                    <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                        <div class="flex-shrink-0 me-3">
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                                     class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                     style="width: 50px; height: 50px;">
+                                    <i class="bi bi-image text-muted"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 fs-6">{{ item.product.name }}</h6>
+                            <small class="text-muted">Количество: {{ item.quantity }}</small>
+                        </div>
+                        <div class="fw-bold">
+                            {{ item.total_price|floatformat:0 }} ₽
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Order Totals -->
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Товары ({{ cart.total_items }}):</span>
+                        <span>{{ cart.total_price|floatformat:0 }} ₽</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Доставка:</span>
+                        <span class="text-success">Бесплатно</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold fs-5">
+                        <span>Итого:</span>
+                        <span>{{ cart.total_price|floatformat:0 }} ₽</span>
+                    </div>
+                    
+                    <!-- Security Note -->
+                    <div class="mt-3 p-3 bg-light rounded">
+                        <small class="text-muted">
+                            <i class="bi bi-shield-check me-2"></i>
+                            Ваши данные защищены SSL-шифрованием
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

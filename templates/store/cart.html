@@ -1,0 +1,194 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Корзина - Apple Store{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-6 fw-bold">Корзина</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Главная</a></li>
+                    <li class="breadcrumb-item active">Корзина</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    {% if cart.items.all %}
+        <div class="row">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Товары в корзине ({{ cart.total_items }})</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        {% for item in cart.items.all %}
+                        <div class="cart-item border-bottom p-3" id="cart-item-{{ item.id }}">
+                            <div class="row align-items-center">
+                                <!-- Product Image -->
+                                <div class="col-md-2 col-3">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                                             class="img-fluid rounded" style="max-height: 80px;">
+                                    {% else %}
+                                        <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                             style="height: 80px; width: 80px;">
+                                            <i class="bi bi-image text-muted"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Product Info -->
+                                <div class="col-md-4 col-9">
+                                    <h6 class="mb-1">
+                                        <a href="{{ item.product.get_absolute_url }}" class="text-decoration-none">
+                                            {{ item.product.name }}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">{{ item.product.category.name }}</small>
+                                    <div class="mt-1">
+                                        <span class="badge bg-success">{{ item.product.get_availability_display }}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Quantity Controls -->
+                                <div class="col-md-3 col-6">
+                                    <div class="input-group input-group-sm">
+                                        <button class="btn btn-outline-secondary" type="button" 
+                                                onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'-1' }})">
+                                            <i class="bi bi-dash"></i>
+                                        </button>
+                                        <input type="text" class="form-control text-center" 
+                                               value="{{ item.quantity }}" readonly>
+                                        <button class="btn btn-outline-secondary" type="button" 
+                                                onclick="updateQuantity({{ item.id }}, {{ item.quantity|add:'1' }})">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Price and Remove -->
+                                <div class="col-md-2 col-6 text-end">
+                                    <div class="fw-bold mb-1" id="item-total-{{ item.id }}">
+                                        {{ item.total_price|floatformat:0 }} ₽
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-danger" 
+                                            onclick="removeItem({{ item.id }})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 1rem;">
+                    <div class="card-header">
+                        <h5 class="mb-0">Итого</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Товары ({{ cart.total_items }}):</span>
+                            <span id="cart-subtotal">{{ cart.total_price|floatformat:0 }} ₽</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Доставка:</span>
+                            <span class="text-success">Бесплатно</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
+                            <span>К оплате:</span>
+                            <span id="cart-total">{{ cart.total_price|floatformat:0 }} ₽</span>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'store:checkout' %}" class="btn btn-apple btn-lg">
+                                <i class="bi bi-credit-card"></i> Оформить заказ
+                            </a>
+                            <a href="{% url 'store:product_list' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Продолжить покупки
+                            </a>
+                        </div>
+                        
+                        <!-- Payment Methods -->
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">Принимаем к оплате:</small>
+                            <div class="mt-2">
+                                <i class="bi bi-credit-card fs-4 me-2 text-primary"></i>
+                                <i class="bi bi-wallet2 fs-4 me-2 text-success"></i>
+                                <i class="bi bi-phone fs-4 text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <!-- Empty Cart -->
+        <div class="text-center py-5">
+            <i class="bi bi-cart display-1 text-muted"></i>
+            <h3 class="mt-3">Ваша корзина пуста</h3>
+            <p class="text-muted">Добавьте товары в корзину, чтобы сделать заказ</p>
+            <a href="{% url 'store:product_list' %}" class="btn btn-apple btn-lg">
+                <i class="bi bi-shop"></i> Перейти к покупкам
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function updateQuantity(itemId, newQuantity) {
+    if (newQuantity < 1) {
+        removeItem(itemId);
+        return;
+    }
+    
+    fetch('/update-cart-item/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            item_id: itemId,
+            quantity: newQuantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update item total
+            document.getElementById('item-total-' + itemId).textContent = data.item_total.toFixed(0) + ' ₽';
+            // Update cart totals
+            document.getElementById('cart-subtotal').textContent = data.cart_total_price.toFixed(0) + ' ₽';
+            document.getElementById('cart-total').textContent = data.cart_total_price.toFixed(0) + ' ₽';
+            // Update quantity display
+            document.querySelector('#cart-item-' + itemId + ' input[type="text"]').value = newQuantity;
+            // Update cart counter
+            updateCartCounter(data.cart_total_items);
+        } else {
+            showToast(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showToast('Произошла ошибка при обновлении корзины', 'error');
+    });
+}
+
+function removeItem(itemId) {
+    if (confirm('Удалить товар из корзины?')) {
+        window.location.href = '/remove-from-cart/' + itemId + '/';
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,283 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Apple Store - Главная страница{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    Добро пожаловать в Apple Store
+                </h1>
+                <p class="lead mb-4">
+                    Откройте для себя новейшие продукты Apple. iPhone, iPad, Mac, Apple Watch и многое другое с доставкой по всей России.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'store:product_list' %}" class="btn btn-light btn-lg">
+                        Посмотреть все товары
+                    </a>
+                    <a href="{% url 'store:product_list' %}?category=iphone" class="btn btn-outline-light btn-lg">
+                        Новый iPhone
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="https://raw.githubusercontent.com/hdpngworld/HPW/main/uploads/65038654434d0-iPhone%2015%20Pro%20Natural%20titanium%20png.png" 
+                     alt="iPhone 15" class="img-fluid rounded-3">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="display-5 fw-bold mb-3">Рекомендуемые товары</h2>
+                <p class="lead text-muted">Самые популярные продукты Apple с лучшими предложениями</p>
+            </div>
+        </div>
+        
+        {% if featured_products %}
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card product-card h-100">
+                    <div class="position-relative">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                        {% else %}
+                            {% if 'iPhone 15 Pro' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1692845702834" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'iPhone 15' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-finish-select-202309-6-1inch-black?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1692923780378" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'iPhone 14' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-blue?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1661027473988" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'iPad Pro' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-select-wifi-spacegray-202210?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1664411207213" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'iPad Air' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1645065732688" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'MacBook Pro' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202310?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1697230830200" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'MacBook Air' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-air-starlight-select-202206?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1653084303665" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'Apple Watch Series' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-s9-45-pink-sport-band-pink?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1694158925978" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'Apple Watch SE' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-se-40-alum-midnight-sport-band-midnight?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1661959945806" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'AirPods Pro' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-pro-2nd-gen?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1660927355000" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'AirPods' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-3rd-gen?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1635176534000" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'Magic Keyboard' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MJQJ3?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1617653617000" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% elif 'Apple Pencil' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/apple-pencil-2nd-gen?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1539195312000" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% else %}
+                                <img src="https://via.placeholder.com/400x400/F2F2F7/8E8E93?text=Apple+Product" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: contain; padding: 20px;">
+                            {% endif %}
+                        {% endif %}
+                        
+                        {% if product.availability != 'available' %}
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge availability-badge {{ product.availability }}">
+                                    {{ product.get_availability_display }}
+                                </span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted flex-grow-1">
+                            {{ product.description|truncatewords:15 }}
+                        </p>
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="price">{{ product.formatted_price }} ₽</span>
+                                {% if product.availability == 'available' %}
+                                    <span class="badge bg-success">В наличии</span>
+                                {% endif %}
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary">
+                                    Подробнее
+                                </a>
+                                {% if product.availability == 'available' %}
+                                    <button class="btn btn-apple" onclick="addToCart({{ product.id }})">
+                                        В корзину
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <h4 class="text-muted">Рекомендуемые товары скоро появятся</h4>
+            <p class="text-muted">Следите за обновлениями!</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="display-5 fw-bold mb-3">Категории товаров</h2>
+                <p class="lead text-muted">Выберите интересующую вас категорию</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <!-- iPhone Category -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'store:product_list' %}?category=iphone" class="text-decoration-none">
+                    <div class="category-card bg-gradient" style="background: linear-gradient(135deg, #FF6B6B, #FF8E8E);">
+                        <div class="category-overlay">
+                            <div class="text-center text-white">
+                                <i class="bi bi-phone fs-1 mb-3"></i>
+                                <h4 class="fw-bold">iPhone</h4>
+                                <p class="mb-0">Самые современные смартфоны</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- iPad Category -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'store:product_list' %}?category=ipad" class="text-decoration-none">
+                    <div class="category-card bg-gradient" style="background: linear-gradient(135deg, #4ECDC4, #6DD5ED);">
+                        <div class="category-overlay">
+                            <div class="text-center text-white">
+                                <i class="bi bi-tablet fs-1 mb-3"></i>
+                                <h4 class="fw-bold">iPad</h4>
+                                <p class="mb-0">Планшеты для работы и творчества</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Mac Category -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'store:product_list' %}?category=mac" class="text-decoration-none">
+                    <div class="category-card bg-gradient" style="background: linear-gradient(135deg, #A8E6CF, #88D8A3);">
+                        <div class="category-overlay">
+                            <div class="text-center text-white">
+                                <i class="bi bi-laptop fs-1 mb-3"></i>
+                                <h4 class="fw-bold">Mac</h4>
+                                <p class="mb-0">Мощные компьютеры и ноутбуки</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Apple Watch Category -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'store:product_list' %}?category=apple-watch" class="text-decoration-none">
+                    <div class="category-card bg-gradient" style="background: linear-gradient(135deg, #FFB74D, #FFCC80);">
+                        <div class="category-overlay">
+                            <div class="text-center text-white">
+                                <i class="bi bi-smartwatch fs-1 mb-3"></i>
+                                <h4 class="fw-bold">Apple Watch</h4>
+                                <p class="mb-0">Умные часы для здоровья</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- AirPods Category -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'store:product_list' %}?category=airpods" class="text-decoration-none">
+                    <div class="category-card bg-gradient" style="background: linear-gradient(135deg, #B39DDB, #CE93D8);">
+                        <div class="category-overlay">
+                            <div class="text-center text-white">
+                                <i class="bi bi-earbuds fs-1 mb-3"></i>
+                                <h4 class="fw-bold">AirPods</h4>
+                                <p class="mb-0">Беспроводные наушники</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Accessories Category -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'store:product_list' %}?category=accessories" class="text-decoration-none">
+                    <div class="category-card bg-gradient" style="background: linear-gradient(135deg, #F8BBD9, #F48FB1);">
+                        <div class="category-overlay">
+                            <div class="text-center text-white">
+                                <i class="bi bi-plug fs-1 mb-3"></i>
+                                <h4 class="fw-bold">Аксессуары</h4>
+                                <p class="mb-0">Чехлы, зарядки и многое другое</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-truck fs-1 apple-blue"></i>
+                </div>
+                <h5>Быстрая доставка</h5>
+                <p class="text-muted">Доставка по всей России от 1 дня</p>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-shield-check fs-1 apple-blue"></i>
+                </div>
+                <h5>Официальная гарантия</h5>
+                <p class="text-muted">Гарантия Apple на все товары</p>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-credit-card fs-1 apple-blue"></i>
+                </div>
+                <h5>Удобная оплата</h5>
+                <p class="text-muted">Различные способы оплаты</p>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="mb-3">
+                    <i class="bi bi-headset fs-1 apple-blue"></i>
+                </div>
+                <h5>Поддержка 24/7</h5>
+                <p class="text-muted">Всегда готовы помочь вам</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

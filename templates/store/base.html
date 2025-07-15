@@ -1,0 +1,319 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Apple Store - Официальный интернет-магазин Apple в России{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    
+    <style>
+        :root {
+            --apple-blue: #007AFF;
+            --apple-gray: #8E8E93;
+            --apple-light-gray: #F2F2F7;
+            --apple-dark: #1D1D1F;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--apple-dark);
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .apple-blue {
+            color: var(--apple-blue) !important;
+        }
+        
+        .bg-apple-blue {
+            background-color: var(--apple-blue) !important;
+        }
+        
+        .btn-apple {
+            background-color: var(--apple-blue);
+            border-color: var(--apple-blue);
+            color: white;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+        
+        .btn-apple:hover {
+            background-color: #0051d0;
+            border-color: #0051d0;
+            color: white;
+        }
+        
+        .product-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .category-card {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            height: 200px;
+        }
+        
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--apple-blue), #0051d0);
+            color: white;
+            padding: 4rem 0;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--apple-blue);
+        }
+        
+        .cart-counter {
+            background-color: #ff3b30;
+            color: white;
+            border-radius: 50%;
+            padding: 0.1rem 0.5rem;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .footer {
+            background-color: var(--apple-light-gray);
+            color: var(--apple-gray);
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        .availability-badge.available {
+            background-color: #34c759;
+        }
+        
+        .availability-badge.out_of_stock {
+            background-color: #ff3b30;
+        }
+        
+        .availability-badge.pre_order {
+            background-color: #ff9500;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand apple-blue" href="{% url 'store:home' %}">
+                <i class="bi bi-apple"></i> Apple Store
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'store:home' %}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'store:product_list' %}">Все товары</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Категории
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'store:product_list' %}?category=iphone">iPhone</a></li>
+                            <li><a class="dropdown-item" href="{% url 'store:product_list' %}?category=ipad">iPad</a></li>
+                            <li><a class="dropdown-item" href="{% url 'store:product_list' %}?category=mac">Mac</a></li>
+                            <li><a class="dropdown-item" href="{% url 'store:product_list' %}?category=apple-watch">Apple Watch</a></li>
+                            <li><a class="dropdown-item" href="{% url 'store:product_list' %}?category=airpods">AirPods</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <!-- Search Form -->
+                <form class="d-flex me-3" method="GET" action="{% url 'store:product_list' %}">
+                    <div class="input-group">
+                        <input class="form-control" type="search" name="search" placeholder="Поиск товаров..." value="{{ request.GET.search }}">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Cart -->
+                <div class="position-relative">
+                    <a href="{% url 'store:cart' %}" class="btn btn-outline-primary position-relative">
+                        <i class="bi bi-bag"></i>
+                        <span class="cart-counter" id="cart-counter" style="display: none;">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="apple-blue">Apple Store</h5>
+                    <p>Официальный интернет-магазин Apple в России. Оригинальная продукция с гарантией.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Продукты</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'store:product_list' %}?category=iphone" class="text-decoration-none text-muted">iPhone</a></li>
+                        <li><a href="{% url 'store:product_list' %}?category=ipad" class="text-decoration-none text-muted">iPad</a></li>
+                        <li><a href="{% url 'store:product_list' %}?category=mac" class="text-decoration-none text-muted">Mac</a></li>
+                        <li><a href="{% url 'store:product_list' %}?category=apple-watch" class="text-decoration-none text-muted">Apple Watch</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Поддержка</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-muted">Служба поддержки</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Гарантия</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Доставка</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Возврат</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Контакты</h6>
+                    <p class="text-muted mb-1"><i class="bi bi-telephone"></i> 8 (800) 200-02-02</p>
+                    <p class="text-muted mb-1"><i class="bi bi-envelope"></i> support@apple-store.ru</p>
+                    <p class="text-muted"><i class="bi bi-geo-alt"></i> Москва, Россия</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-muted mb-0">&copy; 2024 Apple Store Russia. Все права защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Add to cart functionality
+        function addToCart(productId, quantity = 1) {
+            fetch('/add-to-cart/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: quantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateCartCounter(data.cart_total_items);
+                    showToast(data.message, 'success');
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showToast('Произошла ошибка', 'error');
+            });
+        }
+        
+        // Update cart counter
+        function updateCartCounter(count) {
+            const counter = document.getElementById('cart-counter');
+            if (count > 0) {
+                counter.textContent = count;
+                counter.style.display = 'block';
+            } else {
+                counter.style.display = 'none';
+            }
+        }
+        
+        // Show toast notifications
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        // Load cart counter on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would be populated from Django context or AJAX call
+            // For now, we'll leave it empty
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

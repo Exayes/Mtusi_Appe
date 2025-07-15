@@ -1,0 +1,251 @@
+{% extends 'store/base.html' %}
+
+{% block title %}
+{% if current_category %}
+{{ current_category|title }} - 
+{% endif %}
+Каталог товаров - Apple Store
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-6 fw-bold">
+                {% if current_category %}
+                    {{ current_category|title }}
+                {% else %}
+                    Каталог товаров
+                {% endif %}
+            </h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'store:home' %}">Главная</a></li>
+                    <li class="breadcrumb-item active">Каталог</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <form method="GET" class="row g-3">
+                        <!-- Search -->
+                        <div class="col-md-4">
+                            <label for="search" class="form-label">Поиск</label>
+                            <input type="text" class="form-control" id="search" name="search" 
+                                   value="{{ search_query }}" placeholder="Название товара...">
+                        </div>
+                        
+                        <!-- Category Filter -->
+                        <div class="col-md-3">
+                            <label for="category" class="form-label">Категория</label>
+                            <select class="form-select" id="category" name="category">
+                                <option value="">Все категории</option>
+                                <option value="iphone" {% if current_category == 'iphone' %}selected{% endif %}>iPhone</option>
+                                <option value="ipad" {% if current_category == 'ipad' %}selected{% endif %}>iPad</option>
+                                <option value="mac" {% if current_category == 'mac' %}selected{% endif %}>Mac</option>
+                                <option value="apple-watch" {% if current_category == 'apple-watch' %}selected{% endif %}>Apple Watch</option>
+                                <option value="airpods" {% if current_category == 'airpods' %}selected{% endif %}>AirPods</option>
+                                <option value="accessories" {% if current_category == 'accessories' %}selected{% endif %}>Аксессуары</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Availability Filter -->
+                        <div class="col-md-2">
+                            <label for="availability" class="form-label">Наличие</label>
+                            <select class="form-select" id="availability" name="availability">
+                                <option value="">Любое</option>
+                                <option value="available" {% if current_availability == 'available' %}selected{% endif %}>В наличии</option>
+                                <option value="pre_order" {% if current_availability == 'pre_order' %}selected{% endif %}>Предзаказ</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Sort -->
+                        <div class="col-md-2">
+                            <label for="sort" class="form-label">Сортировка</label>
+                            <select class="form-select" id="sort" name="sort">
+                                <option value="name" {% if current_sort == 'name' %}selected{% endif %}>По названию</option>
+                                <option value="price_asc" {% if current_sort == 'price_asc' %}selected{% endif %}>Цена ↑</option>
+                                <option value="price_desc" {% if current_sort == 'price_desc' %}selected{% endif %}>Цена ↓</option>
+                                <option value="newest" {% if current_sort == 'newest' %}selected{% endif %}>Новинки</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Filter Button -->
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button type="submit" class="btn btn-apple w-100">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    {% if page_obj %}
+        <div class="row g-4 mb-4">
+            {% for product in page_obj %}
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="card product-card h-100">
+                    <div class="position-relative">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                        {% else %}
+                            {% if 'iPhone 15 Pro' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1692845702834" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'iPhone 15' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-finish-select-202309-6-1inch-black?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1692923780378" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'iPhone 14' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-blue?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1661027473988" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'iPad Pro' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-select-wifi-spacegray-202210?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1664411207213" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'iPad Air' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1645065732688" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'MacBook Pro' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202310?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1697230830200" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'MacBook Air' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/macbook-air-starlight-select-202206?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1653084303665" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'Apple Watch Series' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-s9-45-pink-sport-band-pink?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1694158925978" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'Apple Watch SE' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-se-40-alum-midnight-sport-band-midnight?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1661959945806" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'AirPods Pro' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-pro-2nd-gen?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1660927355000" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'AirPods' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-3rd-gen?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1635176534000" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'Magic Keyboard' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MJQJ3?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1617653617000" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% elif 'Apple Pencil' in product.name %}
+                                <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/apple-pencil-2nd-gen?wid=400&hei=400&fmt=jpeg&qlt=90&.v=1539195312000" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% else %}
+                                <img src="https://via.placeholder.com/400x400/F2F2F7/8E8E93?text=Apple+Product" 
+                                     class="card-img-top" alt="{{ product.name }}" style="height: 280px; object-fit: contain; padding: 20px;">
+                            {% endif %}
+                        {% endif %}
+                        
+                        {% if product.availability != 'available' %}
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge availability-badge {{ product.availability }}">
+                                    {{ product.get_availability_display }}
+                                </span>
+                            </div>
+                        {% endif %}
+                        
+                        {% if product.featured %}
+                            <div class="position-absolute top-0 start-0 m-2">
+                                <span class="badge bg-warning text-dark">
+                                    <i class="bi bi-star-fill"></i> Хит
+                                </span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted flex-grow-1">
+                            {{ product.description|truncatewords:20 }}
+                        </p>
+                        
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="price">{{ product.formatted_price }} ₽</span>
+                                {% if product.availability == 'available' %}
+                                    <span class="badge bg-success">В наличии</span>
+                                {% elif product.availability == 'pre_order' %}
+                                    <span class="badge bg-warning">Предзаказ</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Нет в наличии</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary">
+                                    Подробнее
+                                </a>
+                                {% if product.availability == 'available' %}
+                                    <button class="btn btn-apple" onclick="addToCart({{ product.id }})">
+                                        <i class="bi bi-cart-plus"></i> В корзину
+                                    </button>
+                                {% elif product.availability == 'pre_order' %}
+                                    <button class="btn btn-warning" onclick="addToCart({{ product.id }})">
+                                        <i class="bi bi-clock"></i> Предзаказ
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-secondary" disabled>
+                                        <i class="bi bi-x-circle"></i> Нет в наличии
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Product pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for page_num in page_obj.paginator.page_range %}
+                    {% if page_num == page_obj.number %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page_num }}</span>
+                        </li>
+                    {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_num }}">{{ page_num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+    {% else %}
+        <!-- No Products Found -->
+        <div class="text-center py-5">
+            <i class="bi bi-search display-1 text-muted"></i>
+            <h3 class="mt-3">Товары не найдены</h3>
+            <p class="text-muted">Попробуйте изменить параметры поиска или фильтры</p>
+            <a href="{% url 'store:product_list' %}" class="btn btn-apple">Сбросить фильтры</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

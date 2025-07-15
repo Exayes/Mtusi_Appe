@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Store - Официальный интернет-магазин Apple в России</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="static/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand apple-blue" href="#home">
+                <i class="bi bi-apple"></i> Apple Store
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products">Все товары</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Категории
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#iphone">iPhone</a></li>
+                            <li><a class="dropdown-item" href="#ipad">iPad</a></li>
+                            <li><a class="dropdown-item" href="#mac">Mac</a></li>
+                            <li><a class="dropdown-item" href="#apple-watch">Apple Watch</a></li>
+                            <li><a class="dropdown-item" href="#airpods">AirPods</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <!-- Search Form -->
+                <form class="d-flex me-3">
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Поиск товаров...">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Cart -->
+                <div class="position-relative">
+                    <a href="#cart" class="btn btn-outline-primary position-relative">
+                        <i class="bi bi-bag"></i>
+                        <span class="cart-counter">3</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Добро пожаловать в Apple Store
+                    </h1>
+                    <p class="lead mb-4">
+                        Откройте для себя новейшие продукты Apple. iPhone, iPad, Mac, Apple Watch и многое другое с доставкой по всей России.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-light btn-lg" onclick="window.location.href='http://localhost:8000'">
+                            Перейти к магазину
+                        </button>
+                        <a href="#products" class="btn btn-outline-light btn-lg">
+                            Посмотреть товары
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="" 
+                         alt="iPhone 15" class="img-fluid rounded-3" style="max-height: 400px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Showcase -->
+    <section class="py-5" id="products">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="display-5 fw-bold mb-3">Популярные товары</h2>
+                    <p class="lead text-muted">Самые востребованные продукты Apple с лучшими предложениями</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <!-- iPhone 15 Pro Max -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card product-card h-100">
+                        <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=2560&hei=2560&fmt=jpeg&qlt=90&.v=1692845702834" 
+                             class="card-img-top" alt="iPhone 15 Pro Max" style="height: 250px; object-fit: contain;">
+                        
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">iPhone 15 Pro Max</h5>
+                            <p class="card-text text-muted flex-grow-1">
+                                Самый продвинутый iPhone с титановым корпусом и чипом A17 Pro
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="price">129 990 ₽</span>
+                                    <span class="badge bg-success">В наличии</span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">Подробнее</button>
+                                    <button class="btn btn-apple">В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- iPad Pro -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card product-card h-100">
+                        <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-select-wifi-spacegray-202210?wid=2560&hei=2560&fmt=jpeg&qlt=90&.v=1664411207213" 
+                             class="card-img-top" alt="iPad Pro" style="height: 250px; object-fit: contain;">
+                        
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">iPad Pro 12.9"</h5>
+                            <p class="card-text text-muted flex-grow-1">
+                                Самый мощный iPad Pro с чипом M2 и дисплеем Liquid Retina XDR
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="price">109 990 ₽</span>
+                                    <span class="badge bg-success">В наличии</span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">Подробнее</button>
+                                    <button class="btn btn-apple">В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MacBook Pro -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card product-card h-100">
+                        <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202310?wid=2560&hei=2560&fmt=jpeg&qlt=90&.v=1697230830200" 
+                             class="card-img-top" alt="MacBook Pro" style="height: 250px; object-fit: contain;">
+                        
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">MacBook Pro 14"</h5>
+                            <p class="card-text text-muted flex-grow-1">
+                                Профессиональный MacBook Pro с чипом M3 Pro и невероятной производительностью
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="price">249 990 ₽</span>
+                                    <span class="badge bg-success">В наличии</span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">Подробнее</button>
+                                    <button class="btn btn-apple">В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apple Watch -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card product-card h-100">
+                        <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-s9-45-pink-sport-band-pink?wid=2560&hei=2560&fmt=jpeg&qlt=90&.v=1694158925978" 
+                             class="card-img-top" alt="Apple Watch" style="height: 250px; object-fit: contain;">
+                        
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Apple Watch Series 9</h5>
+                            <p class="card-text text-muted flex-grow-1">
+                                Самые продвинутые Apple Watch с чипом S9 и ярким дисплеем
+                            </p>
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="price">42 990 ₽</span>
+                                    <span class="badge bg-success">В наличии</span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">Подробнее</button>
+                                    <button class="btn btn-apple">В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Django App Access -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h2 class="display-6 fw-bold mb-4">Полнофункциональный магазин</h2>
+                    <p class="lead mb-4">
+                        Это демонстрационная страница. Для доступа к полнофункциональному интернет-магазину 
+                        Apple на Django перейдите по ссылке ниже.
+                    </p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button class="btn btn-apple btn-lg" onclick="window.open('http://localhost:8000', '_blank')">
+                            <i class="bi bi-shop"></i> Открыть магазин Django
+                        </button>
+                        <button class="btn btn-outline-primary btn-lg" onclick="window.open('http://localhost:8000/admin/', '_blank')">
+                            <i class="bi bi-gear"></i> Админ-панель
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-truck fs-1 apple-blue"></i>
+                    </div>
+                    <h5>Быстрая доставка</h5>
+                    <p class="text-muted">Доставка по всей России от 1 дня</p>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-shield-check fs-1 apple-blue"></i>
+                    </div>
+                    <h5>Официальная гарантия</h5>
+                    <p class="text-muted">Гарантия Apple на все товары</p>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-credit-card fs-1 apple-blue"></i>
+                    </div>
+                    <h5>Удобная оплата</h5>
+                    <p class="text-muted">Различные способы оплаты</p>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-headset fs-1 apple-blue"></i>
+                    </div>
+                    <h5>Поддержка 24/7</h5>
+                    <p class="text-muted">Всегда готовы помочь вам</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="apple-blue">Apple Store</h5>
+                    <p>Официальный интернет-магазин Apple в России. Оригинальная продукция с гарантией.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Продукты</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#iphone" class="text-decoration-none text-muted">iPhone</a></li>
+                        <li><a href="#ipad" class="text-decoration-none text-muted">iPad</a></li>
+                        <li><a href="#mac" class="text-decoration-none text-muted">Mac</a></li>
+                        <li><a href="#apple-watch" class="text-decoration-none text-muted">Apple Watch</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Поддержка</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none text-muted">Служба поддержки</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Гарантия</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Доставка</a></li>
+                        <li><a href="#" class="text-decoration-none text-muted">Возврат</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Контакты</h6>
+                    <p class="text-muted mb-1"><i class="bi bi-telephone"></i> 8 (800) 200-02-02</p>
+                    <p class="text-muted mb-1"><i class="bi bi-envelope"></i> support@apple-store.ru</p>
+                    <p class="text-muted"><i class="bi bi-geo-alt"></i> Москва, Россия</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-muted mb-0">&copy; 2024 Apple Store Russia. Все права защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add to cart animation
+        function addToCart() {
+            alert('Товар добавлен в корзину! Перейдите в Django приложение для полного функционала.');
+        }
+
+        // Update cart buttons
+        document.querySelectorAll('.btn-apple').forEach(btn => {
+            if (btn.textContent.includes('В корзину')) {
+                btn.addEventListener('click', addToCart);
+            }
+        });
+    </script>
+</body>
+</html>
